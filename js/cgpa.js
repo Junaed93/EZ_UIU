@@ -118,135 +118,193 @@
   });
 
   document.getElementById("calculateCgpa").addEventListener("click", () => {
-    // --- 1. Validation (Strict ModelRef Match) ---
-    // Note: modelref uses 'currentCgpaInput', 'completedCreditsInput', 'completedEarnedCreditsInput'
-    const currentCgpa = parseFloat(currentCgpaInput.value);
-    const initialAttemptedCredits = parseFloat(attCreditsInput.value);
-    const initialEarnedCredits = parseFloat(earnedCreditsInput.value);
+    // Prepare data for the ModelRef-style calculation
 
-    if (courses.length === 0 && retakes.length === 0)
-      return alert("Please add at least one course or retake.");
-
-    const hasInitialStanding =
-      !isNaN(currentCgpa) &&
-      !isNaN(initialAttemptedCredits) &&
-      !isNaN(initialEarnedCredits) &&
-      currentCgpaInput.value.trim() !== "" &&
-      attCreditsInput.value.trim() !== "" &&
-      earnedCreditsInput.value.trim() !== "";
-
-    if (hasInitialStanding) {
-      if (initialEarnedCredits > initialAttemptedCredits)
-        return alert(
-          "Earned credits cannot be greater than attempted credits.",
-        );
-      if (currentCgpa * initialAttemptedCredits > initialEarnedCredits * 4.0)
-        return alert("Invalid CGPA! Impossible academic standing detected.");
-      if (currentCgpa < 0 || currentCgpa > 4.0)
-        return alert("CGPA must be between 0.00 and 4.00");
-    }
-
-    if (retakes.length > 0 && !hasInitialStanding) {
-      return alert(
-        "To calculate retakes, you MUST enter complete and valid Current Standing.",
-      );
-    }
-
-    // --- 2. Calculation Logic (Strict Copy-Paste Adapted) ---
-
-    // Merge into single array for strict logic adherence
+    // 1. Merge inputs to match modelref expectation
     const allCourses = [
       ...courses.map((c) => ({ ...c, type: "new" })),
       ...retakes.map((r) => ({ ...r, type: "retake" })),
     ];
 
-    const initialPoints = currentCgpa * initialAttemptedCredits;
+    // 2. Define Inputs (Mapping to ModelRef Names)
+    const currentCgpaVal = currentCgpaInput.value.trim();
+    const initialAttemptedCreditsVal = attCreditsInput.value.trim();
+    const initialEarnedCreditsVal = earnedCreditsInput.value.trim();
 
-    let totalPoints = hasInitialStanding ? initialPoints : 0;
-    let totalGpaCredits = hasInitialStanding ? initialAttemptedCredits : 0;
-    let totalCompletedCredits = hasInitialStanding ? initialEarnedCredits : 0;
+    // 3. Validation Logic (from handleCalculation in modelref)
+    const currentCgpa = parseFloat(currentCgpaVal);
+    const initialAttemptedCredits = parseFloat(initialAttemptedCreditsVal);
+    const initialEarnedCredits = parseFloat(initialEarnedCreditsVal);
 
-    let trimesterPoints = 0;
-    let trimesterGpaCredits = 0;
-    let trimesterCompletedCredits = 0;
+    if (allCourses.length === 0)
+      return alert("Please add at least one course or retake.");
 
-    let retakeAdj = 0; // Keeping for UI display only
+    const isInitialStandingComplete =
+      currentCgpaVal !== "" &&
+      !isNaN(currentCgpa) &&
+      currentCgpa >= 0 &&
+      currentCgpa <= 4.0 &&
+      initialAttemptedCreditsVal !== "" &&
+      !isNaN(initialAttemptedCredits) &&
+      initialAttemptedCredits >= 0 &&
+      initialEarnedCreditsVal !== "" &&
+      !isNaN(initialEarnedCredits) &&
+      initialEarnedCredits >= 0;
 
-    allCourses.forEach((course) => {
-      const credit = course.credit;
-      trimesterGpaCredits += credit;
+    const hasInitialStandingAttempt =
+      currentCgpaVal !== "" ||
+      initialAttemptedCreditsVal !== "" ||
+      initialEarnedCreditsVal !== "";
 
-      if (course.type === "new") {
-        const grade = course.grade;
-        trimesterPoints += credit * grade;
-        totalPoints += credit * grade;
-        totalGpaCredits += credit;
-        if (grade > 0) {
-          trimesterCompletedCredits += credit;
-          totalCompletedCredits += credit;
-        }
-      } else {
-        // Retake
-        const oldGrade = course.oldGrade;
-        const newGrade = course.newGrade;
+    if (hasInitialStandingAttempt && !isInitialStandingComplete) {
+      return alert(
+        "Please enter complete and valid Current Standing (CGPA, Attempted, Earned).",
+      );
+    }
 
-        trimesterPoints += credit * newGrade;
+    if (retakes.length > 0 && !isInitialStandingComplete) {
+      return alert(
+        "To calculate retakes, you MUST enter complete and valid Current Standing.",
+      );
+    }
 
-        // This logic is for *trimester* completed credits, which only increments if retaking an F
-        if (oldGrade === 0 && newGrade > 0) {
-          trimesterCompletedCredits += credit;
-        }
+    // 4. The Exact `calculateResults` Logic from ModelRef
+    // We use a closure or immediate execution here to keep specific variable names
+    const calculateResultsExact = () => {
+      const currentCgpa = parseFloat(currentCgpaInput.value) || 0;
+      const initialAttemptedCredits = parseFloat(attCreditsInput.value) || 0;
+      const initialEarnedCredits = parseFloat(earnedCreditsInput.value) || 0;
 
-        if (hasInitialStanding) {
-          const diff = newGrade * credit - oldGrade * credit;
-          totalPoints = totalPoints - oldGrade * credit + newGrade * credit;
-          retakeAdj += diff; // For UI
+      // Re-evaluating inside for exact match
+      const hasInitialStanding =
+        currentCgpaInput.value.trim() !== "" &&
+        !isNaN(parseFloat(currentCgpaInput.value)) &&
+        attCreditsInput.value.trim() !== "" &&
+        !isNaN(initialAttemptedCredits) &&
+        initialAttemptedCredits >= 0 &&
+        earnedCreditsInput.value.trim() !== "" &&
+        !isNaN(initialEarnedCredits) &&
+        initialEarnedCredits >= 0;
 
-          if (oldGrade === 0 && newGrade > 0) {
+      const initialPoints = currentCgpa * initialAttemptedCredits;
+
+      let totalPoints = initialPoints;
+      let totalGpaCredits = initialAttemptedCredits;
+      let totalCompletedCredits = initialEarnedCredits;
+
+      let trimesterPoints = 0;
+      let trimesterGpaCredits = 0;
+      let trimesterCompletedCredits = 0;
+
+      // Using 'allCourses' which matches 'courses' in modelref
+      allCourses.forEach((course) => {
+        const credit = course.credit;
+        trimesterGpaCredits += credit;
+
+        if (course.type === "new") {
+          const grade = course.grade;
+          trimesterPoints += credit * grade;
+          totalPoints += credit * grade;
+          totalGpaCredits += credit;
+
+          if (grade > 0) {
+            trimesterCompletedCredits += credit;
             totalCompletedCredits += credit;
-          } else if (oldGrade > 0 && newGrade === 0) {
-            totalCompletedCredits -= credit;
           }
+        } else {
+          // Retake
+          const oldGrade = course.oldGrade;
+          const newGrade = course.newGrade;
+
+          trimesterPoints += credit * newGrade;
+
+          // This logic is for *trimester* completed credits, which only increments if retaking an F
+          if (oldGrade === 0 && newGrade > 0) {
+            trimesterCompletedCredits += credit;
+          }
+
+          if (hasInitialStanding) {
+            totalPoints = totalPoints - oldGrade * credit + newGrade * credit;
+
+            if (oldGrade === 0 && newGrade > 0) {
+              totalCompletedCredits += credit;
+            } else if (oldGrade > 0 && newGrade === 0) {
+              totalCompletedCredits -= credit;
+            }
+          }
+          // No 'else' here, because retakes without initial standing are blocked by validation
         }
-      }
-    });
+      });
 
-    const finalCgpa = totalGpaCredits > 0 ? totalPoints / totalGpaCredits : 0;
-    const trimesterGpa =
-      trimesterGpaCredits > 0 ? trimesterPoints / trimesterGpaCredits : 0;
-    totalCompletedCredits = Math.max(0, totalCompletedCredits);
+      const finalCgpa = totalGpaCredits > 0 ? totalPoints / totalGpaCredits : 0;
+      const trimesterGpa =
+        trimesterGpaCredits > 0 ? trimesterPoints / trimesterGpaCredits : 0;
+      totalCompletedCredits = Math.max(0, totalCompletedCredits);
 
-    // --- 3. Display Results ---
-    document.getElementById("newCgpa").textContent = finalCgpa.toFixed(2);
+      // Return everything needed for display
+      return {
+        finalCgpa,
+        trimesterGpa,
+        totalGpaCredits,
+        trimesterGpaCredits,
+        trimesterCompletedCredits,
+        totalCompletedCredits,
+        totalPoints, // Added for planner cache
+        retakeAdj:
+          totalPoints -
+          initialPoints -
+          (trimesterPoints - trimesterGpaCredits * 0), // Approximate diff for UI, strictly we don't need it if exact match
+      };
+    };
+
+    const results = calculateResultsExact();
+
+    // --- Display Results ---
+    document.getElementById("newCgpa").textContent =
+      results.finalCgpa.toFixed(2);
     document.getElementById("trimesterGpa").textContent =
-      trimesterGpa.toFixed(2);
-    document.getElementById("totalAttempted").textContent = totalGpaCredits;
-    document.getElementById("totalEarned").textContent = totalCompletedCredits;
+      results.trimesterGpa.toFixed(2);
+    document.getElementById("totalAttempted").textContent =
+      results.totalGpaCredits;
+    document.getElementById("totalEarned").textContent =
+      results.totalCompletedCredits;
 
+    // Calculate retake impact for UI (Diff between new total points and what it would be without retake logic is hard to exact match without initial points,
+    // but we can just use the same logic as before for visual flair or omit if not in modelref)
+    // Modelref doesn't show "Retake Impact" explicitly in the snippet provided, so we'll hide it to be safe or calc accurately.
+    // Let's calc strict difference
     if (retakes.length > 0) {
+      let diff = 0;
+      retakes.forEach(
+        (r) => (diff += r.newGrade * r.credit - r.oldGrade * r.credit),
+      );
       document.getElementById("retakeImpact").style.display = "flex";
       document.getElementById("pointsAdjusted").textContent =
-        (retakeAdj >= 0 ? "+" : "") + retakeAdj.toFixed(2);
+        (diff >= 0 ? "+" : "") + diff.toFixed(2);
     } else {
       document.getElementById("retakeImpact").style.display = "none";
     }
 
     // Standing Message
+    const finalCgpa = results.finalCgpa;
     const msgEl = document.getElementById("standingMessage");
-    if (finalCgpa >= 3.8) msgEl.textContent = "Outstanding Performance! 🌟";
-    else if (finalCgpa >= 3.5) msgEl.textContent = "Excellent Work! 🎓";
-    else if (finalCgpa >= 3.0) msgEl.textContent = "Good Standing 👍";
-    else if (finalCgpa >= 2.5) msgEl.textContent = "Keep Pushing! 💪";
-    else msgEl.textContent = "Needs Improvement ⚠️";
+    if (finalCgpa >= 3.8) msgEl.textContent = "Bhai apni toh future Faculty";
+    else if (finalCgpa >= 3.5)
+      msgEl.textContent = "Either apne Waiver wala, Or Apnar Waiver nai";
+    else if (finalCgpa >= 3.0)
+      msgEl.textContent = "Bhalo bhai aro bhalo korar try koren";
+    else if (finalCgpa >= 2.5)
+      msgEl.textContent = "Ei cg te jodi pola hon biye korbe na keo";
+    else msgEl.textContent = "Bhai buke ashen apne ar amar cg ek e";
 
     resultCard.style.display = "block";
     resultCard.scrollIntoView({ behavior: "smooth", block: "center" });
 
     // Cache for planner
     calculationCache = {
-      cgpa: finalCgpa,
-      credits: totalGpaCredits,
-      totalPoints: totalPoints,
+      cgpa: results.finalCgpa,
+      credits: results.totalGpaCredits,
+      totalPoints: results.totalPoints,
     };
   });
 
