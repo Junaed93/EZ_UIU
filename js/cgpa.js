@@ -118,87 +118,110 @@
   });
 
   document.getElementById("calculateCgpa").addEventListener("click", () => {
-    // --- 1. Validation ---
-    const curCgpa = parseFloat(currentCgpaInput.value);
-    const attCr = parseFloat(attCreditsInput.value);
-    const ernCr = parseFloat(earnedCreditsInput.value);
+    // --- 1. Validation (Strict ModelRef Match) ---
+    // Note: modelref uses 'currentCgpaInput', 'completedCreditsInput', 'completedEarnedCreditsInput'
+    const currentCgpa = parseFloat(currentCgpaInput.value);
+    const initialAttemptedCredits = parseFloat(attCreditsInput.value);
+    const initialEarnedCredits = parseFloat(earnedCreditsInput.value);
 
     if (courses.length === 0 && retakes.length === 0)
       return alert("Please add at least one course or retake.");
 
-    const hasInitial = !isNaN(curCgpa) && !isNaN(attCr) && !isNaN(ernCr);
+    const hasInitialStanding =
+      !isNaN(currentCgpa) &&
+      !isNaN(initialAttemptedCredits) &&
+      !isNaN(initialEarnedCredits) &&
+      currentCgpaInput.value.trim() !== "" &&
+      attCreditsInput.value.trim() !== "" &&
+      earnedCreditsInput.value.trim() !== "";
 
-    if (hasInitial) {
-      if (ernCr > attCr)
+    if (hasInitialStanding) {
+      if (initialEarnedCredits > initialAttemptedCredits)
         return alert(
           "Earned credits cannot be greater than attempted credits.",
         );
-      if (curCgpa * attCr > ernCr * 4.0)
+      if (currentCgpa * initialAttemptedCredits > initialEarnedCredits * 4.0)
         return alert("Invalid CGPA! Impossible academic standing detected.");
-      if (curCgpa < 0 || curCgpa > 4.0)
+      if (currentCgpa < 0 || currentCgpa > 4.0)
         return alert("CGPA must be between 0.00 and 4.00");
     }
 
-    if (retakes.length > 0 && !hasInitial) {
+    if (retakes.length > 0 && !hasInitialStanding) {
       return alert(
         "To calculate retakes, you MUST enter complete and valid Current Standing.",
       );
     }
 
-    // --- 2. Calculation Logic ---
+    // --- 2. Calculation Logic (Strict Copy-Paste Adapted) ---
 
-    // Initial Stats
-    let totalPoints = hasInitial ? curCgpa * attCr : 0;
-    let totalAttempted = hasInitial ? attCr : 0;
-    let totalEarned = hasInitial ? ernCr : 0;
+    // Merge into single array for strict logic adherence
+    const allCourses = [
+      ...courses.map((c) => ({ ...c, type: "new" })),
+      ...retakes.map((r) => ({ ...r, type: "retake" })),
+    ];
+
+    const initialPoints = currentCgpa * initialAttemptedCredits;
+
+    let totalPoints = hasInitialStanding ? initialPoints : 0;
+    let totalGpaCredits = hasInitialStanding ? initialAttemptedCredits : 0;
+    let totalCompletedCredits = hasInitialStanding ? initialEarnedCredits : 0;
 
     let trimesterPoints = 0;
-    let trimesterCredits = 0; // For Trimester GPA: New + Retake Credits
-    let retakeAdj = 0;
+    let trimesterGpaCredits = 0;
+    let trimesterCompletedCredits = 0;
 
-    // Process NEW Courses
-    courses.forEach((c) => {
-      const coursePoints = c.credit * c.grade;
+    let retakeAdj = 0; // Keeping for UI display only
 
-      totalPoints += coursePoints;
-      totalAttempted += c.credit; // Increases denominator
-      if (c.grade > 0) totalEarned += c.credit;
+    allCourses.forEach((course) => {
+      const credit = course.credit;
+      trimesterGpaCredits += credit;
 
-      trimesterPoints += coursePoints;
-      trimesterCredits += c.credit;
-    });
+      if (course.type === "new") {
+        const grade = course.grade;
+        trimesterPoints += credit * grade;
+        totalPoints += credit * grade;
+        totalGpaCredits += credit;
+        if (grade > 0) {
+          trimesterCompletedCredits += credit;
+          totalCompletedCredits += credit;
+        }
+      } else {
+        // Retake
+        const oldGrade = course.oldGrade;
+        const newGrade = course.newGrade;
 
-    // Process RETAKE Courses
-    retakes.forEach((r) => {
-      const oldPoints = r.credit * r.oldGrade;
-      const newPoints = r.credit * r.newGrade;
-      const ptDiff = newPoints - oldPoints;
+        trimesterPoints += credit * newGrade;
 
-      totalPoints += ptDiff;
-      retakeAdj += ptDiff;
+        // This logic is for *trimester* completed credits, which only increments if retaking an F
+        if (oldGrade === 0 && newGrade > 0) {
+          trimesterCompletedCredits += credit;
+        }
 
-      // Retake impacts Earned Credits if passing a previously failed course
-      if (r.oldGrade === 0 && r.newGrade > 0) {
-        totalEarned += r.credit;
-      } else if (r.oldGrade > 0 && r.newGrade === 0) {
-        totalEarned -= r.credit;
+        if (hasInitialStanding) {
+          const diff = newGrade * credit - oldGrade * credit;
+          totalPoints = totalPoints - oldGrade * credit + newGrade * credit;
+          retakeAdj += diff; // For UI
+
+          if (oldGrade === 0 && newGrade > 0) {
+            totalCompletedCredits += credit;
+          } else if (oldGrade > 0 && newGrade === 0) {
+            totalCompletedCredits -= credit;
+          }
+        }
       }
-
-      // Retakes count towards Trimester work load
-      trimesterPoints += newPoints;
-      trimesterCredits += r.credit;
     });
 
-    // --- 3. Final Computation ---
-    const finalCgpa = totalAttempted > 0 ? totalPoints / totalAttempted : 0;
-    const trimGpa =
-      trimesterCredits > 0 ? trimesterPoints / trimesterCredits : 0;
+    const finalCgpa = totalGpaCredits > 0 ? totalPoints / totalGpaCredits : 0;
+    const trimesterGpa =
+      trimesterGpaCredits > 0 ? trimesterPoints / trimesterGpaCredits : 0;
+    totalCompletedCredits = Math.max(0, totalCompletedCredits);
 
-    // --- 4. Display Results ---
+    // --- 3. Display Results ---
     document.getElementById("newCgpa").textContent = finalCgpa.toFixed(2);
-    document.getElementById("trimesterGpa").textContent = trimGpa.toFixed(2);
-    document.getElementById("totalAttempted").textContent = totalAttempted;
-    document.getElementById("totalEarned").textContent = totalEarned;
+    document.getElementById("trimesterGpa").textContent =
+      trimesterGpa.toFixed(2);
+    document.getElementById("totalAttempted").textContent = totalGpaCredits;
+    document.getElementById("totalEarned").textContent = totalCompletedCredits;
 
     if (retakes.length > 0) {
       document.getElementById("retakeImpact").style.display = "flex";
@@ -222,7 +245,7 @@
     // Cache for planner
     calculationCache = {
       cgpa: finalCgpa,
-      credits: totalAttempted,
+      credits: totalGpaCredits,
       totalPoints: totalPoints,
     };
   });
