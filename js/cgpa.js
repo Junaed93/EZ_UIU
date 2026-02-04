@@ -170,52 +170,54 @@
 
     // 4. The Exact `calculateResults` Logic from ModelRef
     // We use a closure or immediate execution here to keep specific variable names
+    // 4. The Exact `calculateResults` Logic from ModelRef
+    // We use a closure or immediate execution here to keep specific variable names
     const calculateResultsExact = () => {
-      const currentCgpa = parseFloat(currentCgpaInput.value) || 0;
-      const initialAttemptedCredits = parseFloat(attCreditsInput.value) || 0;
-      const initialEarnedCredits = parseFloat(earnedCreditsInput.value) || 0;
+      // Mapped Inputs
+      const currentCgpaInput = { value: currentCgpaVal };
+      const completedCreditsInput = { value: initialAttemptedCreditsVal };
+      const completedEarnedCreditsInput = { value: initialEarnedCreditsVal };
+      // Using 'courses' alias for 'allCourses' to match snippet exactly
+      const courses = allCourses;
 
-      // Re-evaluating inside for exact match
+      // --- START USER SNIPPET ---
+      const currentCgpa = parseFloat(currentCgpaInput.value) || 0;
+      const initialAttemptedCredits =
+        parseFloat(completedCreditsInput.value) || 0;
+      const initialEarnedCredits =
+        parseFloat(completedEarnedCreditsInput.value) || 0;
       const hasInitialStanding =
         currentCgpaInput.value.trim() !== "" &&
         !isNaN(parseFloat(currentCgpaInput.value)) &&
-        attCreditsInput.value.trim() !== "" &&
+        completedCreditsInput.value.trim() !== "" &&
         !isNaN(initialAttemptedCredits) &&
         initialAttemptedCredits >= 0 &&
-        earnedCreditsInput.value.trim() !== "" &&
+        completedEarnedCreditsInput.value.trim() !== "" &&
         !isNaN(initialEarnedCredits) &&
         initialEarnedCredits >= 0;
-
       const initialPoints = currentCgpa * initialAttemptedCredits;
-
       let totalPoints = initialPoints;
       let totalGpaCredits = initialAttemptedCredits;
       let totalCompletedCredits = initialEarnedCredits;
-
-      let trimesterPoints = 0;
-      let trimesterGpaCredits = 0;
-      let trimesterCompletedCredits = 0;
-
-      // Using 'allCourses' which matches 'courses' in modelref
-      allCourses.forEach((course) => {
+      let trimesterPoints = 0,
+        trimesterGpaCredits = 0,
+        trimesterCompletedCredits = 0;
+      courses.forEach((course) => {
         const credit = course.credit;
         trimesterGpaCredits += credit;
-
         if (course.type === "new") {
           const grade = course.grade;
           trimesterPoints += credit * grade;
           totalPoints += credit * grade;
           totalGpaCredits += credit;
-
           if (grade > 0) {
             trimesterCompletedCredits += credit;
             totalCompletedCredits += credit;
           }
         } else {
           // Retake
-          const oldGrade = course.oldGrade;
-          const newGrade = course.newGrade;
-
+          const oldGrade = course.oldGrade,
+            newGrade = course.newGrade;
           trimesterPoints += credit * newGrade;
 
           // This logic is for *trimester* completed credits, which only increments if retaking an F
@@ -225,23 +227,25 @@
 
           if (hasInitialStanding) {
             totalPoints = totalPoints - oldGrade * credit + newGrade * credit;
-
             if (oldGrade === 0 && newGrade > 0) {
               totalCompletedCredits += credit;
             } else if (oldGrade > 0 && newGrade === 0) {
               totalCompletedCredits -= credit;
             }
           }
-          // No 'else' here, because retakes without initial standing are blocked by validation
+          // No 'else' here, because retakes without initial standing are blocked by handleCalculation
         }
       });
-
       const finalCgpa = totalGpaCredits > 0 ? totalPoints / totalGpaCredits : 0;
       const trimesterGpa =
         trimesterGpaCredits > 0 ? trimesterPoints / trimesterGpaCredits : 0;
       totalCompletedCredits = Math.max(0, totalCompletedCredits);
-
-      // Return everything needed for display
+      calculationCache = {
+        finalCgpa,
+        totalGpaCredits,
+        currentTotalPoints: totalPoints,
+        totalCompletedCredits,
+      };
       return {
         finalCgpa,
         trimesterGpa,
@@ -249,11 +253,7 @@
         trimesterGpaCredits,
         trimesterCompletedCredits,
         totalCompletedCredits,
-        totalPoints, // Added for planner cache
-        retakeAdj:
-          totalPoints -
-          initialPoints -
-          (trimesterPoints - trimesterGpaCredits * 0), // Approximate diff for UI, strictly we don't need it if exact match
+        totalPoints, // Preserved for planner compatibility outside syntax
       };
     };
 
