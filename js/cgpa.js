@@ -118,16 +118,14 @@
   });
 
   document.getElementById("calculateCgpa").addEventListener("click", () => {
-    // --- 1. Validation (Matches modelref.html) ---
+    // --- 1. Validation ---
     const curCgpa = parseFloat(currentCgpaInput.value);
     const attCr = parseFloat(attCreditsInput.value);
     const ernCr = parseFloat(earnedCreditsInput.value);
 
-    // Basic Check
     if (courses.length === 0 && retakes.length === 0)
       return alert("Please add at least one course or retake.");
 
-    // Advanced Validity Check (Logic from modelref.html)
     const hasInitial = !isNaN(curCgpa) && !isNaN(attCr) && !isNaN(ernCr);
 
     if (hasInitial) {
@@ -149,33 +147,29 @@
 
     // --- 2. Calculation Logic ---
 
-    // Initial State
+    // Initial Stats
     let totalPoints = hasInitial ? curCgpa * attCr : 0;
     let totalAttempted = hasInitial ? attCr : 0;
     let totalEarned = hasInitial ? ernCr : 0;
 
     let trimesterPoints = 0;
-    let trimesterCredits = 0;
-
+    let trimesterCredits = 0; // For Trimester GPA: New + Retake Credits
     let retakeAdj = 0;
 
     // Process NEW Courses
     courses.forEach((c) => {
-      // Updated Total Stats
-      totalPoints += c.credit * c.grade;
-      totalAttempted += c.credit;
+      const coursePoints = c.credit * c.grade;
+
+      totalPoints += coursePoints;
+      totalAttempted += c.credit; // Increases denominator
       if (c.grade > 0) totalEarned += c.credit;
 
-      // Update Trimester Stats
-      trimesterPoints += c.credit * c.grade;
+      trimesterPoints += coursePoints;
       trimesterCredits += c.credit;
     });
 
     // Process RETAKE Courses
     retakes.forEach((r) => {
-      // Update Total Stats (Adjustments only)
-      // Note: Retakes do NOT increase 'totalAttempted' because they were already attempted.
-
       const oldPoints = r.credit * r.oldGrade;
       const newPoints = r.credit * r.newGrade;
       const ptDiff = newPoints - oldPoints;
@@ -183,18 +177,15 @@
       totalPoints += ptDiff;
       retakeAdj += ptDiff;
 
-      // Earned Credits Logic:
-      // Fail (0.00) -> Pass (>0.00) : +Credit
-      // Pass (>0.00) -> Fail (0.00) : -Credit (Rare functionality but correct logic)
+      // Retake impacts Earned Credits if passing a previously failed course
       if (r.oldGrade === 0 && r.newGrade > 0) {
         totalEarned += r.credit;
       } else if (r.oldGrade > 0 && r.newGrade === 0) {
         totalEarned -= r.credit;
       }
 
-      // Update Trimester Stats
-      // Retakes ARE part of the current trimester workload
-      trimesterPoints += r.credit * r.newGrade;
+      // Retakes count towards Trimester work load
+      trimesterPoints += newPoints;
       trimesterCredits += r.credit;
     });
 
@@ -202,12 +193,6 @@
     const finalCgpa = totalAttempted > 0 ? totalPoints / totalAttempted : 0;
     const trimGpa =
       trimesterCredits > 0 ? trimesterPoints / trimesterCredits : 0;
-
-    // Trimester Credit Warning (Optional from modelref)
-    if (trimesterCredits < 6) {
-      // We could alert, but let's just allow it with a console log or minor UI indication if needed.
-      // For now, just calculating is fine.
-    }
 
     // --- 4. Display Results ---
     document.getElementById("newCgpa").textContent = finalCgpa.toFixed(2);
