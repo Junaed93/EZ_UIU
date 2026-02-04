@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Calculator | EZ_UIU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/tabs.css">
+    <link rel="stylesheet" href="css/tables.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <i class="fas fa-graduation-cap"></i>
+                EZ_UIU
+            </a>
+            <div class="navbar-links" id="navLinks">
+                <a href="cgpacalculator.html" class="nav-link active">
+                    <i class="fas fa-calculator"></i>
+                    CGPA Calculator
+                </a>
+                <a href="tuition.html" class="nav-link">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Tuition Fee
+                </a>
+                <a href="advisor.html" class="nav-link">
+                    <i class="fas fa-robot"></i>
+                    AI Advisor
+                </a>
+            </div>
+            <div class="navbar-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h1>CGPA Calculator</h1>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="cgpa">CGPA Calculator</button>
+                <button class="tab-btn" data-tab="grade">Course Grade</button>
+                <button class="tab-btn" data-tab="credit">Credit Tracker</button>
+                <button class="tab-btn" data-tab="policy">Grading Policy</button>
+            </div>
+
+            <!-- Tab 1: CGPA Calculator -->
+            <div id="cgpa-tab" class="tab-content active">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Current Academic Standing</h2>
+                        <span class="optional-tag">Optional</span>
+                    </div>
+                    <div class="inline-form three-col">
+                        <div class="form-group">
+                            <label>CGPA</label>
+                            <input type="number" id="currentCgpa" min="0" max="4" step="0.01" placeholder="3.53">
+                        </div>
+                        <div class="form-group">
+                            <label>Total Att. Credits</label>
+                            <input type="number" id="attemptedCredits" min="0" step="0.5" placeholder="82">
+                        </div>
+                        <div class="form-group">
+                            <label>Completed Credits</label>
+                            <input type="number" id="earnedCredits" min="0" step="0.5" placeholder="82">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>This Trimester's Courses</h2>
+                    </div>
+                    <div class="inline-form with-button">
+                        <div class="form-group">
+                            <label>Credit Hours</label>
+                            <select id="newCourseCredit">
+                                <option value="" disabled selected>Select Credit</option>
+                                <option value="3">3 Credits</option>
+                                <option value="2">2 Credits</option>
+                                <option value="1.5">1.5 Credits</option>
+                                <option value="1">1 Credit</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Expected Grade</label>
+                            <select id="newCourseGrade">
+                                <option value="" disabled selected>Select Grade</option>
+                                <option value="4.00">A (4.00)</option>
+                                <option value="3.67">A- (3.67)</option>
+                                <option value="3.33">B+ (3.33)</option>
+                                <option value="3.00">B (3.00)</option>
+                                <option value="2.67">B- (2.67)</option>
+                                <option value="2.33">C+ (2.33)</option>
+                                <option value="2.00">C (2.00)</option>
+                                <option value="1.67">C- (1.67)</option>
+                                <option value="1.33">D+ (1.33)</option>
+                                <option value="1.00">D (1.00)</option>
+                                <option value="0.00">F (0.00)</option>
+                            </select>
+                        </div>
+                        <button id="addCourse" class="btn btn-primary btn-block">
+                            <i class="fas fa-plus"></i> Add Course
+                        </button>
+                    </div>
+                    <div id="coursesList" class="added-items"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Retake Courses</h2>
+                        <span class="optional-tag">Optional</span>
+                    </div>
+                    <div class="inline-form with-button four-col">
+                        <div class="form-group">
+                            <label>Credits</label>
+                            <select id="retakeCredit">
+                                <option value="" disabled selected>Select Credit</option>
+                                <option value="3">3 Credits</option>
+                                <option value="2">2 Credits</option>
+                                <option value="1.5">1.5 Credits</option>
+                                <option value="1">1 Credit</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Old Grade</label>
+                            <select id="retakeOldGrade">
+                                <option value="" disabled selected>Select Old Grade</option>
+                                <option value="3.67">A- (3.67)</option>
+                                <option value="3.33">B+ (3.33)</option>
+                                <option value="3.00">B (3.00)</option>
+                                <option value="2.67">B- (2.67)</option>
+                                <option value="2.33">C+ (2.33)</option>
+                                <option value="2.00">C (2.00)</option>
+                                <option value="1.67">C- (1.67)</option>
+                                <option value="1.33">D+ (1.33)</option>
+                                <option value="1.00">D (1.00)</option>
+                                <option value="0.00">F (0.00)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>New Grade</label>
+                            <select id="retakeNewGrade">
+                                <option value="" disabled selected>Select New Grade</option>
+                                <option value="4.00">A (4.00)</option>
+                                <option value="3.67">A- (3.67)</option>
+                                <option value="3.33">B+ (3.33)</option>
+                                <option value="3.00">B (3.00)</option>
+                                <option value="2.67">B- (2.67)</option>
+                                <option value="2.33">C+ (2.33)</option>
+                                <option value="2.00">C (2.00)</option>
+                                <option value="1.67">C- (1.67)</option>
+                                <option value="1.33">D+ (1.33)</option>
+                                <option value="1.00">D (1.00)</option>
+                            </select>
+                        </div>
+                        <button id="addRetake" class="btn btn-success btn-block">
+                            <i class="fas fa-sync"></i> Add Retake
+                        </button>
+                    </div>
+                    <div id="retakesList" class="added-items"></div>
+                </div>
+
+                <div class="calculator-grid single">
+                    <button id="resetAll" class="btn btn-secondary btn-block">
+                        <i class="fas fa-redo"></i> Reset All
+                    </button>
+                    <button id="calculateCgpa" class="btn btn-primary btn-block">
+                        <i class="fas fa-calculator"></i> Calculate CGPA
+                    </button>
+                </div>
+
+                <div class="glass-card result-card" id="cgpaResult" style="display: none;">
+                    <h2 class="text-center" id="standingMessage" style="margin-bottom: 20px; color: var(--primary);">
+                    </h2>
+
+                    <div class="results-grid">
+                        <div class="result-item highlight">
+                            <span class="result-label">New CGPA</span>
+                            <span class="result-value" id="newCgpa">0.00</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Trimester GPA</span>
+                            <span class="result-value" id="trimesterGpa">0.00</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Total Att. Credits</span>
+                            <span class="result-value" id="totalAttempted">0</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Total Earned</span>
+                            <span class="result-value" id="totalEarned">0</span>
+                        </div>
+                    </div>
+
+                    <div id="retakeImpact" class="retake-impact" style="display: none;">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Retake Adjustment: <strong id="pointsAdjusted">+0.00</strong> points</span>
+                    </div>
+
+                    <div class="section-card" style="margin-top: 24px; background: rgba(255,255,255,0.05);">
+                        <div class="section-header center">
+                            <h2>Target Planner</h2>
+                        </div>
+
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <p style="color: var(--text-secondary);">With a GPA of <input type="number" id="plannerGpa"
+                                    placeholder="3.5"
+                                    style="width: 70px; padding: 5px; border-radius: 4px; border: 1px solid var(--glass-border);">
+                                on <input type="number" id="plannerCredits" placeholder="9"
+                                    style="width: 60px; padding: 5px; border-radius: 4px; border: 1px solid var(--glass-border);">
+                                credits next trimester, my CGPA will be: <strong id="plannerResult"
+                                    style="color: var(--primary);">__</strong></p>
+                        </div>
+
+                        <div style="border-top: 1px solid var(--glass-border); padding-top: 20px;">
+                            <h3
+                                style="font-size: 1rem; margin-bottom: 12px; text-align: center; color: var(--text-primary);">
+                                Target CGPA Calculation</h3>
+                            <div class="inline-form"
+                                style="grid-template-columns: 1fr 1fr auto; align-items: end; gap: 10px; max-width: 500px; margin: 0 auto;">
+                                <div class="form-group">
+                                    <label>Target CGPA</label>
+                                    <input type="number" id="targetCgpa" placeholder="3.80" min="0" max="4" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label>Next Credits</label>
+                                    <input type="number" id="targetCredits" placeholder="12" min="1" step="0.5">
+                                </div>
+                                <button id="calcTarget" class="btn btn-secondary"
+                                    style="height: 52px; padding: 0 16px;">Calc</button>
+                            </div>
+                            <p id="targetResult"
+                                style="text-align: center; margin-top: 12px; font-weight: 500; display: none;">You need
+                                a GPA of: <strong style="color: var(--primary); font-size: 1.2rem;">0.00</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Course Grade Calculator -->
+            <div id="grade-tab" class="tab-content">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Marks Distribution</h2>
+                    </div>
+                    <div class="inline-form" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+                        <div class="form-group">
+                            <label>Assignment (5)</label>
+                            <input type="number" class="grade-input" id="marksAssignment" max="5" placeholder="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Attendance (5)</label>
+                            <input type="number" class="grade-input" id="marksAttendance" max="5" placeholder="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Midterm (30)</label>
+                            <input type="number" class="grade-input" id="marksMidterm" max="30" placeholder="25">
+                        </div>
+                        <div class="form-group">
+                            <label>Final Exam (40)</label>
+                            <input type="number" class="grade-input" id="marksFinal" max="40" placeholder="35">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Class Tests (Best 3 of 4)</h2>
+                    </div>
+                    <div id="ctInputs"
+                        style="display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); margin-bottom: 16px;">
+                        <input type="number" class="form-group input ct-score" placeholder="CT 1 (20)" max="20">
+                        <input type="number" class="form-group input ct-score" placeholder="CT 2 (20)" max="20">
+                        <input type="number" class="form-group input ct-score" placeholder="CT 3 (20)" max="20">
+                    </div>
+                    <button id="addCt" class="btn btn-secondary btn-sm" style="width: auto; margin-bottom: 16px;">
+                        <i class="fas fa-plus"></i> Add CT
+                    </button>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Average of best 3 CTs will be added
+                        (Total 20).</p>
+                </div>
+
+                <button id="calcCourseGrade" class="btn btn-primary btn-block" style="margin-bottom: 24px;">
+                    <i class="fas fa-calculator"></i> Calculate Grade
+                </button>
+
+                <div class="glass-card result-card" id="courseGradeResult" style="display: none; text-align: center;">
+                    <div class="result-value" id="finalGradeLetter" style="font-size: 4rem; color: var(--primary);">A
+                    </div>
+                    <p style="font-size: 1.5rem; font-weight: 600; margin-bottom: 8px;" id="finalGradePoint">4.00 Points
+                    </p>
+                    <p style="color: var(--text-secondary);">Total Marks: <strong id="totalMarks">0</strong> / 100</p>
+                </div>
+            </div>
+
+            <!-- Tab 3: Credit Tracker -->
+            <div id="credit-tab" class="tab-content">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>B.Sc in CSE Tracker</h2>
+                    </div>
+                    <div class="inline-form three-col">
+                        <div class="form-group">
+                            <label>Completed Credits</label>
+                            <input type="number" id="trackerCredits" placeholder="80">
+                        </div>
+                        <div class="form-group">
+                            <label>Trimesters Done</label>
+                            <input type="number" id="trackerTrimesters" placeholder="6">
+                        </div>
+                        <button id="calcTracker" class="btn btn-primary">Calculate</button>
+                    </div>
+                    <div id="trackerResult" style="margin-top: 20px; display: none;">
+                        <p>Req. Credits: <strong>138</strong></p>
+                        <p>Remaining: <strong id="creditsRemaining">0</strong></p>
+                        <p>Avg Credits/Trimester: <strong id="avgCredits">0</strong></p>
+                        <p>Est. Trimesters Left: <strong id="estTimeLeft">0</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Grading Policy -->
+            <div id="policy-tab" class="tab-content">
+                <div class="glass-card">
+                    <h2 style="margin-bottom: 20px;">UIU Grading Policy</h2>
+                    <div class="styled-table-container">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Letter Grade</th>
+                                    <th>Grade Point</th>
+                                    <th>Marks (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="grade-A">A</td>
+                                    <td>4.00</td>
+                                    <td>90 – 100</td>
+                                </tr>
+                                <tr>
+                                    <td class="grade-A-">A-</td>
+                                    <td>3.67</td>
+                                    <td>86 – 89</td>
+                                </tr>
+                                <tr>
+                                    <td class="grade-B+">B+</td>
+                                    <td>3.33</td>
+                                    <td>82 – 85</td>
+                                </tr>
+                                <tr>
+                                    <td class="grade-B">B</td>
+                                    <td>3.00</td>
+                                    <td>78 – 81</td>
+                                </tr>
+                                <tr>
+                                    <td class="grade-B-">B-</td>
+                                    <td>2.67</td>
+                                    <td>74 – 77</td>
+                                </tr>
+                                <tr>
+                                    <td class="grade-C+">C+</td>
+                                    <td>2.33</td>
+                                    <td>70 – 73</td>
+                                </tr>
+                                <tr>
+                                    <td class="grade-C">C</td>
+                                    <td>2.00</td>
+                                    <td>66 – 69</td>
+                                </tr>
+                                <tr>
+                                    <td class="grade-C-">C-</td>
+                                    <td>1.67</td>
+                                    <td>62 – 65</td>
+                                </tr>
+                                <tr>
+                                    <td class="grade-D+">D+</td>
+                                    <td>1.33</td>
+                                    <td>58 – 61</td>
+                                </tr>
+                                <tr>
+                                    <td class="grade-D">D</td>
+                                    <td>1.00</td>
+                                    <td>55 – 57</td>
+                                </tr>
+                                <tr>
+                                    <td class="grade-F">F</td>
+                                    <td>0.00</td>
+                                    <td>00 – 54</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Made by <a href="https://junaed93.github.io" target="_blank"
+                style="color: var(--primary); text-decoration: none; font-weight: 600;">Junaed</a></p>
+    </footer>
+
+    <script src="js/theme.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/cgpa.js"></script>
+</body>
+
+</html>

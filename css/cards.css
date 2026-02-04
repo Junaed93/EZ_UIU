@@ -1,0 +1,399 @@
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--glass-shadow);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl), 0 0 40px var(--primary-glow);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.section-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: all var(--transition-normal);
+}
+
+.section-card:hover {
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.section-header.center {
+    justify-content: center;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.section-header h2 i {
+    margin-right: 8px;
+    color: var(--primary);
+}
+
+.optional-tag {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background: var(--bg-tertiary);
+    padding: 4px 12px;
+    border-radius: 50px;
+}
+
+.card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    background: var(--gradient-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: white;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px var(--primary-glow);
+}
+
+.card-icon.success {
+    background: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+    box-shadow: 0 4px 16px var(--success-glow);
+}
+
+.result-card {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(6, 182, 212, 0.1));
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.result-card:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.result-item {
+    text-align: center;
+    padding: 20px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.result-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+}
+
+.result-item.highlight {
+    background: var(--gradient-1);
+    border: none;
+    box-shadow: 0 8px 32px var(--primary-glow);
+}
+
+.result-item.highlight .result-label,
+.result-item.highlight .result-value {
+    color: white;
+}
+
+.result-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.result-value {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.retake-impact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 14px 20px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.retake-impact i {
+    color: var(--success);
+}
+
+.retake-impact strong {
+    color: var(--success);
+}
+
+.btn-calculate {
+    margin-top: 8px;
+    margin-bottom: 20px;
+    padding: 18px 32px;
+    font-size: 1.1rem;
+}
+
+.fee-breakdown {
+    margin-bottom: 32px;
+    padding: 20px;
+    background: var(--glass-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
+}
+
+.fee-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--glass-border);
+    font-size: 1rem;
+}
+
+.fee-row:last-child {
+    border-bottom: none;
+}
+
+.fee-row i {
+    margin-right: 10px;
+    color: var(--primary);
+}
+
+.fee-row.discount {
+    color: var(--success);
+}
+
+.fee-row.discount span:last-child::before {
+    content: "- ";
+}
+
+.fee-row.total {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    padding-top: 20px;
+    margin-top: 8px;
+    border-top: 2px solid var(--primary);
+    border-bottom: none;
+}
+
+.installments-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.installment-card {
+    text-align: center;
+    padding: 24px 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.installment-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+}
+
+.installment-card.first {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.1));
+}
+
+.installment-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.installment-card.first .installment-icon {
+    background: var(--gradient-1);
+    color: white;
+}
+
+.installment-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.installment-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.wip-container {
+    display: flex;
+    justify-content: center;
+}
+
+.wip-card {
+    max-width: 600px;
+    text-align: center;
+}
+
+.wip-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+    color: white;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+    animation: pulse 2s infinite;
+}
+
+.wip-icon-large {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--text-muted);
+    animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.wip-description {
+    font-size: 1.1rem;
+    margin-bottom: 32px;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wip-preview {
+    padding: 24px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: 32px;
+}
+
+.wip-preview.disabled {
+    opacity: 0.5;
+    filter: blur(2px);
+    pointer-events: none;
+}
+
+.wip-features h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.wip-features h3 i {
+    color: var(--warning);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    transition: all var(--transition-fast);
+}
+
+.feature-item:hover {
+    background: var(--bg-tertiary);
+    transform: translateX(4px);
+}
+
+.feature-item i {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-1);
+    border-radius: var(--radius-sm);
+    color: white;
+    font-size: 0.9rem;
+}
+
+.calculator-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 28px;
+    margin-bottom: 28px;
+}
+
+.calculator-grid.single {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+}

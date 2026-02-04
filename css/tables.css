@@ -1,0 +1,50 @@
+.styled-table-container {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.styled-table thead {
+    background: var(--bg-tertiary);
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 16px 24px;
+    text-align: left;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.styled-table th {
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.styled-table td {
+    color: var(--text-primary);
+}
+
+.styled-table tr:last-child td {
+    border-bottom: none;
+}
+
+.styled-table tr:hover td {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+/* Specific styles for grade coloring */
+.grade-A, .grade-A- { color: var(--success); font-weight: 600; }
+.grade-B\+, .grade-B, .grade-B- { color: var(--primary); font-weight: 600; }
+.grade-C\+, .grade-C, .grade-C- { color: var(--warning); font-weight: 600; }
+.grade-D\+, .grade-D { color: #F97316; font-weight: 600; }
+.grade-F { color: var(--error); font-weight: 600; }

@@ -1,0 +1,56 @@
+@media (max-width: 1024px) {
+    .calculator-grid { grid-template-columns: 1fr; }
+    .results-grid { grid-template-columns: repeat(2, 1fr); }
+    .installments-grid { grid-template-columns: repeat(3, 1fr); }
+    .inline-form.three-col { grid-template-columns: repeat(3, 1fr); }
+    .inline-form.with-button { grid-template-columns: 1fr 1.5fr auto; }
+    .inline-form.with-button.four-col { grid-template-columns: 1fr 1fr 1fr auto; }
+}
+
+@media (max-width: 768px) {
+    :root { --navbar-height: 64px; }
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.2rem; }
+    
+    .navbar-links {
+        position: fixed;
+        top: var(--navbar-height);
+        left: 0;
+        right: 0;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 16px;
+        gap: 8px;
+        border-bottom: 1px solid var(--glass-border);
+        box-shadow: var(--shadow-lg);
+        display: none;
+    }
+    
+    .mobile-menu-open .navbar-links { display: flex; }
+    .nav-link { padding: 14px 20px; justify-content: center; }
+    .mobile-menu-btn { display: flex; }
+    .theme-toggle { order: -1; margin-right: auto; margin-left: 16px; }
+    .main-content { padding-top: calc(var(--navbar-height) + 32px); }
+    .section-card { padding: 20px; }
+    .results-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .result-item { padding: 16px; }
+    .result-value { font-size: 1.5rem; }
+    .installments-grid { grid-template-columns: 1fr; gap: 12px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .page-icon { width: 64px; height: 64px; font-size: 1.5rem; }
+    
+    .inline-form.three-col { grid-template-columns: 1fr; }
+    .inline-form.with-button { grid-template-columns: 1fr; }
+    .inline-form.with-button.four-col { grid-template-columns: 1fr; }
+    .inline-form .btn { width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .container { padding: 0 16px; }
+    .navbar-brand { font-size: 1.25rem; }
+    .section-card { padding: 16px; }
+    .section-header { flex-wrap: wrap; }
+    h1 { font-size: 1.5rem; }
+    .results-grid { grid-template-columns: 1fr; }
+}

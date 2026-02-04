@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EZ_UIU - AI Academic Advisor for UIU Students">
+    <title>AI Advisor | EZ_UIU</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <div class="bg-gradient"></div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <i class="fas fa-graduation-cap"></i>
+                EZ_UIU
+            </a>
+            <div class="navbar-links" id="navLinks">
+                <a href="cgpacalculator.html" class="nav-link">
+                    <i class="fas fa-calculator"></i>
+                    CGPA Calculator
+                </a>
+                <a href="tuition.html" class="nav-link">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Tuition Fee
+                </a>
+                <a href="advisor.html" class="nav-link active">
+                    <i class="fas fa-robot"></i>
+                    AI Advisor
+                </a>
+            </div>
+            <div class="navbar-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun sun-icon"></i>
+                    <i class="fas fa-moon moon-icon"></i>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-icon wip">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h1>AI Academic Advisor</h1>
+                <p>Get personalized academic guidance powered by AI</p>
+            </div>
+
+            <div class="wip-container">
+                <div class="glass-card wip-card">
+                    <div class="wip-badge">
+                        <i class="fas fa-hard-hat"></i>
+                        Work in Progress
+                    </div>
+
+                    <div class="wip-icon-large">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+
+                    <h2>Coming Soon!</h2>
+                    <p class="wip-description">
+                        This AI advisor will help UIU students with CGPA improvement,
+                        course planning, and academic guidance.
+                    </p>
+
+                    <div class="wip-preview disabled">
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-question-circle"></i>
+                                Ask a question
+                            </label>
+                            <textarea disabled placeholder="e.g., How can I improve my CGPA?"></textarea>
+                        </div>
+                        <button class="btn btn-primary btn-block" disabled>
+                            <i class="fas fa-paper-plane"></i>
+                            Get Advice
+                        </button>
+                    </div>
+
+                    <div class="wip-features">
+                        <h3><i class="fas fa-sparkles"></i> Upcoming Features</h3>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>CGPA Improvement Strategies</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-tasks"></i>
+                                <span>Course Load Recommendations</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-bullseye"></i>
+                                <span>Goal Setting Assistance</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>Performance Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Made by <a href="https://junaed93.github.io" target="_blank"
+                style="color: var(--primary); text-decoration: none; font-weight: 600;">Junaed</a></p>
+    </footer>
+
+    <script src="js/theme.js"></script>
+    <script src="js/nav.js"></script>
+</body>
+
+</html>
