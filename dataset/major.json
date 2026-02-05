@@ -1,0 +1,172 @@
+{
+  "program": "BSCSE",
+  "open_credit": true,
+  "rule": "Elective I–V. At least 3 courses must be completed from the selected major.",
+  "majors": {
+    "Computational Theory": [
+      {
+        "course_code": "CSE 4611",
+        "course_name": "Compiler Design",
+        "credit": 3,
+        "prerequisites": ["CSE 2233"],
+        "difficulty": "Hard",
+        "exam_day": "Day 4",
+        "exam_slot": "T1"
+      },
+      {
+        "course_code": "CSE 4621",
+        "course_name": "Computer Graphics",
+        "credit": 3,
+        "prerequisites": ["MATH 2201", "MATH 2183"],
+        "difficulty": "Medium",
+        "exam_day": "Day 2",
+        "exam_slot": "T1"
+      }
+    ],
+    "Network and Communications": [
+      {
+        "course_code": "CSE 4783",
+        "course_name": "Cryptography",
+        "credit": 3,
+        "prerequisites": ["CSE 2213"],
+        "difficulty": "Hard",
+        "exam_day": "Day 6",
+        "exam_slot": "T2"
+      },
+      {
+        "course_code": "CSE 4777",
+        "course_name": "Network Security",
+        "credit": 3,
+        "prerequisites": ["CSE 3711"],
+        "difficulty": "Medium",
+        "exam_day": "Day 3",
+        "exam_slot": "T3"
+      }
+    ],
+    "Systems": [
+      {
+        "course_code": "CSE 4621",
+        "course_name": "Computer Graphics",
+        "credit": 3,
+        "prerequisites": ["MATH 2183", "MATH 2201"],
+        "difficulty": "Medium",
+        "exam_day": "Day 2",
+        "exam_slot": "T1"
+      },
+      {
+        "course_code": "CSE 4587",
+        "course_name": "Cloud Computing",
+        "credit": 3,
+        "prerequisites": ["CSE 4509", "CSE 3711"],
+        "difficulty": "Medium",
+        "exam_day": "Day 3",
+        "exam_slot": "T3"
+      }
+    ],
+    "Data Science": [
+      {
+        "course_code": "CSE 4889",
+        "course_name": "Machine Learning",
+        "credit": 3,
+        "prerequisites": ["CSE 3811"],
+        "difficulty": "Hard",
+        "exam_day": "Day 1",
+        "exam_slot": "T3"
+      },
+      {
+        "course_code": "CSE 4891",
+        "course_name": "Data Mining",
+        "credit": 3,
+        "prerequisites": ["CSE 3811"],
+        "difficulty": "Medium",
+        "exam_day": "Day 7",
+        "exam_slot": "T1"
+      },
+      {
+        "course_code": "CSE 4893",
+        "course_name": "Introduction to Bioinformatics",
+        "credit": 3,
+        "prerequisites": [],
+        "difficulty": "Medium",
+        "exam_day": "Day 4",
+        "exam_slot": "T3"
+      }
+    ],
+    "Software Engineering": [
+      {
+        "course_code": "CSE 4451",
+        "course_name": "Human Computer Interaction",
+        "credit": 3,
+        "prerequisites": ["CSE 3411"],
+        "difficulty": "Easy",
+        "exam_day": "Day 3",
+        "exam_slot": "T1"
+      },
+      {
+        "course_code": "CSE 4435",
+        "course_name": "Software Architecture",
+        "credit": 3,
+        "prerequisites": [],
+        "difficulty": "Medium",
+        "exam_day": "Day 4",
+        "exam_slot": "T2"
+      },
+      {
+        "course_code": "CSE 4181",
+        "course_name": "Mobile Application Development",
+        "credit": 3,
+        "prerequisites": ["CSE 1115", "CSE 1116"],
+        "difficulty": "Medium",
+        "exam_day": "Day 6",
+        "exam_slot": "T3"
+      },
+      {
+        "course_code": "CSE 4495",
+        "course_name": "Software Testing and Quality Assurance",
+        "credit": 3,
+        "prerequisites": ["CSE 3421"],
+        "difficulty": "Medium",
+        "exam_day": "Day 7",
+        "exam_slot": "T3"
+      }
+    ],
+    "Information and Communication Technology": [
+      {
+        "course_code": "CSE 4181",
+        "course_name": "Mobile Application Development",
+        "credit": 3,
+        "prerequisites": ["CSE 1115", "CSE 1116"],
+        "difficulty": "Medium",
+        "exam_day": "Day 6",
+        "exam_slot": "T3"
+      },
+      {
+        "course_code": "CSE 4587",
+        "course_name": "Cloud Computing",
+        "credit": 3,
+        "prerequisites": ["CSE 4509", "CSE 3711"],
+        "difficulty": "Medium",
+        "exam_day": "Day 3",
+        "exam_slot": "T3"
+      },
+      {
+        "course_code": "CSE 4495",
+        "course_name": "Software Testing and Quality Assurance",
+        "credit": 3,
+        "prerequisites": ["CSE 3421"],
+        "difficulty": "Medium",
+        "exam_day": "Day 7",
+        "exam_slot": "T3"
+      },
+      {
+        "course_code": "CSE 4945",
+        "course_name": "UI: Concepts and Design",
+        "credit": 3,
+        "prerequisites": [],
+        "difficulty": "Easy",
+        "exam_day": "Day 1",
+        "exam_slot": "T2"
+      }
+    ]
+  }
+}

@@ -20,6 +20,260 @@
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
+
+    <style>
+        .advisor-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .advisor-tab {
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .advisor-tab:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .advisor-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: rgba(var(--primary-rgb), 0.05);
+        }
+
+        .upload-zone i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .upload-zone p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .status-ok {
+            background: #22c55e20;
+            color: #22c55e;
+        }
+
+        .status-heavy {
+            background: #f59e0b20;
+            color: #f59e0b;
+        }
+
+        .status-risky {
+            background: #ef444420;
+            color: #ef4444;
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .result-item {
+            text-align: center;
+            padding: 16px;
+            background: rgba(var(--primary-rgb), 0.05);
+            border-radius: 12px;
+        }
+
+        .result-item .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .result-item .label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .course-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .course-tag {
+            background: var(--primary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .course-tag.new {
+            background: #3b82f6;
+        }
+
+        .course-tag.warning {
+            background: #f59e0b;
+        }
+
+        .course-tag.error {
+            background: #ef4444;
+        }
+
+        .semester-plan {
+            margin-top: 20px;
+        }
+
+        .semester-block {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .semester-block h4 {
+            margin: 0 0 12px 0;
+            color: var(--primary);
+        }
+
+        .validation-result {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .validation-result.success {
+            background: #22c55e20;
+            color: #22c55e;
+        }
+
+        .validation-result.warning {
+            background: #f59e0b20;
+            color: #f59e0b;
+        }
+
+        .validation-result.error {
+            background: #ef444420;
+            color: #ef4444;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading-spinner.active {
+            display: block;
+        }
+
+        .loading-spinner i {
+            font-size: 48px;
+            color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .major-select {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .major-option {
+            padding: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .major-option:hover {
+            border-color: var(--primary);
+        }
+
+        .major-option.selected {
+            border-color: var(--primary);
+            background: rgba(var(--primary-rgb), 0.1);
+        }
+
+        .major-option i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -60,64 +314,218 @@
     <main class="main-content">
         <div class="container">
             <div class="page-header">
-                <div class="page-icon wip">
+                <div class="page-icon">
                     <i class="fas fa-robot"></i>
                 </div>
                 <h1>AI Academic Advisor</h1>
-                <p>Get personalized academic guidance powered by AI</p>
+                <p>Get personalized course planning and academic guidance</p>
             </div>
 
-            <div class="wip-container">
-                <div class="glass-card wip-card">
-                    <div class="wip-badge">
-                        <i class="fas fa-hard-hat"></i>
-                        Work in Progress
+            <div class="advisor-tabs">
+                <button class="advisor-tab active" data-tab="setup">
+                    <i class="fas fa-cog"></i> Setup
+                </button>
+                <button class="advisor-tab" data-tab="auto">
+                    <i class="fas fa-magic"></i> Auto Plan
+                </button>
+                <button class="advisor-tab" data-tab="custom">
+                    <i class="fas fa-hand-pointer"></i> Custom Plan
+                </button>
+                <button class="advisor-tab" data-tab="upload">
+                    <i class="fas fa-file-upload"></i> Upload
+                </button>
+            </div>
+
+            <!-- SETUP TAB -->
+            <div class="tab-content active" id="tab-setup">
+                <div class="glass-card">
+                    <h3><i class="fas fa-user-graduate"></i> Your Academic Status</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Current CGPA</label>
+                            <input type="number" id="inputCgpa" step="0.01" min="0" max="4" placeholder="e.g., 3.25">
+                        </div>
+                        <div class="form-group">
+                            <label>Completed Credits</label>
+                            <input type="number" id="inputCredits" min="0" max="138" placeholder="e.g., 60">
+                        </div>
                     </div>
 
-                    <div class="wip-icon-large">
-                        <i class="fas fa-cogs"></i>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Current Semester</label>
+                            <select id="inputCurrentSem">
+                                <option value="">Select...</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                                <option value="7">Semester 7</option>
+                                <option value="8">Semester 8</option>
+                                <option value="9">Semester 9</option>
+                                <option value="10">Semester 10</option>
+                                <option value="11">Semester 11</option>
+                                <option value="12">Semester 12</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Target Graduation Semester</label>
+                            <select id="inputTargetSem">
+                                <option value="12">12 (Standard)</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <h2>Coming Soon!</h2>
-                    <p class="wip-description">
-                        This AI advisor will help UIU students with CGPA improvement,
-                        course planning, and academic guidance.
+                    <div class="form-group">
+                        <label>Max Credits Per Semester</label>
+                        <select id="inputMaxCredits">
+                            <option value="12">12 Credits</option>
+                            <option value="15" selected>15 Credits (Recommended)</option>
+                            <option value="18">18 Credits (Heavy)</option>
+                        </select>
+                    </div>
+
+                    <h3 style="margin-top: 24px;"><i class="fas fa-code-branch"></i> Select Your Major</h3>
+                    <div class="major-select" id="majorSelect">
+                        <div class="major-option" data-major="Software Engineering">
+                            <i class="fas fa-laptop-code"></i>
+                            Software Engineering
+                        </div>
+                        <div class="major-option" data-major="Data Science">
+                            <i class="fas fa-chart-bar"></i>
+                            Data Science
+                        </div>
+                        <div class="major-option" data-major="Network and Communications">
+                            <i class="fas fa-network-wired"></i>
+                            Network & Comm
+                        </div>
+                        <div class="major-option" data-major="Systems">
+                            <i class="fas fa-server"></i>
+                            Systems
+                        </div>
+                        <div class="major-option" data-major="Computational Theory">
+                            <i class="fas fa-brain"></i>
+                            Computational Theory
+                        </div>
+                        <div class="major-option" data-major="Information and Communication Technology">
+                            <i class="fas fa-globe"></i>
+                            ICT
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" id="btnCalculateStatus">
+                        <i class="fas fa-calculator"></i> Calculate Graduation Status
+                    </button>
+
+                    <div class="result-card" id="statusResult" style="display: none;">
+                        <h4>Graduation Status</h4>
+                        <div id="statusBadge"></div>
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="value" id="resRemaining">--</div>
+                                <div class="label">Credits Remaining</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="value" id="resSemesters">--</div>
+                                <div class="label">Semesters Left</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="value" id="resAvg">--</div>
+                                <div class="label">Avg Credits/Sem</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AUTO PLAN TAB -->
+            <div class="tab-content" id="tab-auto">
+                <div class="glass-card">
+                    <h3><i class="fas fa-magic"></i> Auto-Generated Course Plan</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Based on your setup, we'll generate an optimal course plan respecting prerequisites and
+                        difficulty.
                     </p>
 
-                    <div class="wip-preview disabled">
-                        <div class="form-group">
-                            <label>
-                                <i class="fas fa-question-circle"></i>
-                                Ask a question
-                            </label>
-                            <textarea disabled placeholder="e.g., How can I improve my CGPA?"></textarea>
-                        </div>
-                        <button class="btn btn-primary btn-block" disabled>
-                            <i class="fas fa-paper-plane"></i>
-                            Get Advice
-                        </button>
+                    <button class="btn btn-primary btn-block" id="btnGeneratePlan">
+                        <i class="fas fa-wand-magic-sparkles"></i> Generate Plan
+                    </button>
+
+                    <div class="loading-spinner" id="planLoading">
+                        <i class="fas fa-spinner"></i>
+                        <p>Generating your plan...</p>
                     </div>
 
-                    <div class="wip-features">
-                        <h3><i class="fas fa-sparkles"></i> Upcoming Features</h3>
-                        <div class="features-grid">
-                            <div class="feature-item">
-                                <i class="fas fa-chart-line"></i>
-                                <span>CGPA Improvement Strategies</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-tasks"></i>
-                                <span>Course Load Recommendations</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-bullseye"></i>
-                                <span>Goal Setting Assistance</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>Performance Analysis</span>
-                            </div>
-                        </div>
+                    <div class="semester-plan" id="semesterPlan"></div>
+                </div>
+            </div>
+
+            <!-- CUSTOM PLAN TAB -->
+            <div class="tab-content" id="tab-custom">
+                <div class="glass-card">
+                    <h3><i class="fas fa-hand-pointer"></i> Custom Course Selection</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Select courses manually and we'll check for prerequisite issues and exam clashes.
+                    </p>
+
+                    <div class="form-group">
+                        <label>Enter Course Codes (comma separated)</label>
+                        <input type="text" id="inputCustomCourses" placeholder="e.g., CSE 4325, CSE 3421, CSE 4531">
+                    </div>
+
+                    <button class="btn btn-primary btn-block" id="btnValidatePlan">
+                        <i class="fas fa-check-circle"></i> Validate Selection
+                    </button>
+
+                    <div id="validationResults" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- UPLOAD TAB -->
+            <div class="tab-content" id="tab-upload">
+                <div class="glass-card">
+                    <h3><i class="fas fa-calendar-alt"></i> Course Offerings (Spring 2026)</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                        View the official UIU course offerings for this semester.
+                    </p>
+                    <a href="dataset/Course-Offerings-Spring-2026-BSCSE-BSDS.pdf" target="_blank"
+                        class="btn btn-primary"
+                        style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 24px;">
+                        <i class="fas fa-file-pdf"></i> View Course Plan PDF
+                    </a>
+                </div>
+
+                <div class="glass-card" style="margin-top: 20px;">
+                    <h3><i class="fas fa-camera"></i> Upload Completed Courses Screenshot</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                        Take a screenshot of your IRAS transcript showing completed courses. Our OCR will detect and
+                        extract the course codes.
+                    </p>
+
+                    <div class="upload-zone" id="uploadZoneImage">
+                        <i class="fas fa-image"></i>
+                        <p><strong>Click to Upload Screenshot</strong></p>
+                        <p>Supports PNG, JPG, JPEG</p>
+                        <input type="file" id="inputImage" accept="image/*" style="display: none;">
+                    </div>
+
+                    <div class="loading-spinner" id="ocrLoading">
+                        <i class="fas fa-spinner"></i>
+                        <p>Processing with OCR... This may take a moment.</p>
+                    </div>
+
+                    <div id="uploadResults" style="margin-top: 20px;"></div>
+
+                    <div class="result-card" id="ocrActions" style="display: none; margin-top: 16px;">
+                        <button class="btn btn-primary" id="btnApplyOCR" style="width: 100%;">
+                            <i class="fas fa-check"></i> Apply Detected Courses to Setup
+                        </button>
                     </div>
                 </div>
             </div>
@@ -129,8 +537,234 @@
                 style="color: var(--primary); text-decoration: none; font-weight: 600;">Junaed</a></p>
     </footer>
 
+    <!-- PDF.js for PDF parsing (No API key needed) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <!-- Tesseract.js for OCR (No API key needed) -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
     <script src="js/theme.js"></script>
     <script src="js/nav.js"></script>
+    <script src="js/advisor.js"></script>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.advisor-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.advisor-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Major selection
+        document.querySelectorAll('.major-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.major-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+            });
+        });
+
+        // Load course data
+        let courseData = { coreCourses: [], majorCoursesByMajor: {}, gedCourses: [] };
+
+        Promise.all([
+            fetch('dataset/course.json').then(r => r.json()),
+            fetch('dataset/major.json').then(r => r.json()),
+            fetch('dataset/ged.json').then(r => r.json())
+        ]).then(([core, major, ged]) => {
+            courseData.coreCourses = core.courses || [];
+            courseData.majorCoursesByMajor = major.majors || {};
+            courseData.gedCourses = ged.courses || [];
+            UIUAdvisor.init(courseData);
+            console.log('Course data loaded!');
+        }).catch(err => console.error('Failed to load course data:', err));
+
+        // Calculate Status
+        document.getElementById('btnCalculateStatus').addEventListener('click', () => {
+            const selectedMajor = document.querySelector('.major-option.selected');
+
+            UIUAdvisor.setState({
+                cgpa: parseFloat(document.getElementById('inputCgpa').value) || 3.0,
+                completed_credits: parseInt(document.getElementById('inputCredits').value) || 0,
+                current_semester: parseInt(document.getElementById('inputCurrentSem').value) || 1,
+                target_graduation_semester: parseInt(document.getElementById('inputTargetSem').value) || 12,
+                max_credits_per_semester: parseInt(document.getElementById('inputMaxCredits').value) || 15,
+                selected_major: selectedMajor ? selectedMajor.dataset.major : ''
+            });
+
+            const status = UIUAdvisor.calculateGraduationStatus();
+
+            document.getElementById('statusResult').style.display = 'block';
+            document.getElementById('resRemaining').textContent = status.remainingCredits;
+            document.getElementById('resSemesters').textContent = status.remainingSemesters;
+            document.getElementById('resAvg').textContent = status.avgCreditsNeeded;
+
+            const badgeClass = status.graduationStatus === 'OK' ? 'status-ok' :
+                status.graduationStatus === 'HEAVY' ? 'status-heavy' : 'status-risky';
+            const badgeIcon = status.graduationStatus === 'OK' ? 'check-circle' :
+                status.graduationStatus === 'HEAVY' ? 'exclamation-triangle' : 'times-circle';
+
+            document.getElementById('statusBadge').innerHTML =
+                `<span class="status-badge ${badgeClass}"><i class="fas fa-${badgeIcon}"></i> ${status.graduationStatus}</span>`;
+        });
+
+        // Generate Auto Plan
+        document.getElementById('btnGeneratePlan').addEventListener('click', () => {
+            document.getElementById('planLoading').classList.add('active');
+            document.getElementById('semesterPlan').innerHTML = '';
+
+            setTimeout(() => {
+                const plan = UIUAdvisor.generateAutoPlan();
+                document.getElementById('planLoading').classList.remove('active');
+
+                let html = '';
+                for (const [sem, courses] of Object.entries(plan.semesterWisePlan)) {
+                    if (courses.length === 0) continue;
+                    html += `<div class="semester-block">
+                        <h4><i class="fas fa-calendar-alt"></i> ${sem.replace('_', ' ').toUpperCase()}</h4>
+                        <div class="course-list">
+                            ${courses.map(c => `<span class="course-tag">${c}</span>`).join('')}
+                        </div>
+                    </div>`;
+                }
+                document.getElementById('semesterPlan').innerHTML = html || '<p>No plan generated. Make sure you have set up your status first.</p>';
+            }, 500);
+        });
+
+        // Validate Custom Plan
+        document.getElementById('btnValidatePlan').addEventListener('click', () => {
+            const input = document.getElementById('inputCustomCourses').value;
+            const courses = input.split(',').map(c => c.trim()).filter(c => c);
+
+            UIUAdvisor.setState({ user_selected_courses: courses });
+            const result = UIUAdvisor.validateCustomPlan();
+
+            let html = '';
+
+            if (result.validCourses.length > 0) {
+                html += `<div class="validation-result success">
+                    <i class="fas fa-check-circle"></i>
+                    <span><strong>Valid:</strong> ${result.validCourses.join(', ')}</span>
+                </div>`;
+            }
+
+            if (result.blockedCourses.length > 0) {
+                result.blockedCourses.forEach(bc => {
+                    html += `<div class="validation-result error">
+                        <i class="fas fa-times-circle"></i>
+                        <span><strong>${bc.course_code}:</strong> ${bc.reason}</span>
+                    </div>`;
+                });
+            }
+
+            if (result.examClashes.length > 0) {
+                result.examClashes.forEach(clash => {
+                    html += `<div class="validation-result error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span><strong>Exam Clash:</strong> ${clash.courses.join(' & ')} on ${clash.day} ${clash.slot}</span>
+                    </div>`;
+                });
+            }
+
+            if (result.tightExamPairs.length > 0) {
+                result.tightExamPairs.forEach(tight => {
+                    html += `<div class="validation-result warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span><strong>Tight Schedule:</strong> ${tight.courses.join(' & ')} - ${tight.warning}</span>
+                    </div>`;
+                });
+            }
+
+            html += `<div class="result-card">
+                <div class="result-grid">
+                    <div class="result-item">
+                        <div class="value">${result.selectedCredits}</div>
+                        <div class="label">Selected Credits</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="value">${result.remainingCredits}</div>
+                        <div class="label">Remaining After</div>
+                    </div>
+                </div>
+            </div>`;
+
+            document.getElementById('validationResults').innerHTML = html;
+        });
+
+        // Store detected courses globally for Apply functionality
+        let detectedCourseCodes = [];
+
+        // Image OCR Upload
+        document.getElementById('uploadZoneImage').addEventListener('click', () => {
+            document.getElementById('inputImage').click();
+        });
+
+        document.getElementById('inputImage').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            document.getElementById('ocrLoading').classList.add('active');
+            document.getElementById('uploadResults').innerHTML = '';
+            document.getElementById('ocrActions').style.display = 'none';
+
+            try {
+                const result = await UIUAdvisor.extractCompletedCoursesFromScreenshot(file);
+                document.getElementById('ocrLoading').classList.remove('active');
+
+                detectedCourseCodes = result.detectedCourses.map(c => c.course_code);
+
+                let html = `<div class="result-card">
+                    <h4><i class="fas fa-check-circle" style="color: #22c55e;"></i> OCR Complete!</h4>
+                    <p>Detected <strong>${result.detectedCourses.length}</strong> completed courses</p>
+                    <div class="course-list">
+                        ${result.detectedCourses.map(c => `<span class="course-tag">${c.course_code}</span>`).join('')}
+                    </div>
+                    ${result.unmatchedText.length > 0 ? `
+                    <p style="margin-top: 12px; color: var(--text-secondary);"><i class="fas fa-question-circle"></i> Unrecognized: ${result.unmatchedText.join(', ')}</p>
+                    ` : ''}
+                </div>`;
+                document.getElementById('uploadResults').innerHTML = html;
+
+                if (detectedCourseCodes.length > 0) {
+                    document.getElementById('ocrActions').style.display = 'block';
+                }
+            } catch (err) {
+                document.getElementById('ocrLoading').classList.remove('active');
+                document.getElementById('uploadResults').innerHTML = `<div class="validation-result error">
+                    <i class="fas fa-times-circle"></i> OCR Error: ${err.message}
+                </div>`;
+            }
+        });
+
+        // Apply OCR detected courses to state
+        document.getElementById('btnApplyOCR').addEventListener('click', () => {
+            if (detectedCourseCodes.length === 0) return;
+
+            UIUAdvisor.setState({
+                completed_courses: detectedCourseCodes
+            });
+
+            // Calculate credits from detected courses
+            let totalCredits = 0;
+            detectedCourseCodes.forEach(code => {
+                const course = UIUAdvisor.findCourseByCode(code);
+                if (course) totalCredits += course.credit;
+            });
+
+            document.getElementById('inputCredits').value = totalCredits;
+
+            // Show confirmation
+            document.getElementById('uploadResults').innerHTML += `
+                <div class="validation-result success" style="margin-top: 12px;">
+                    <i class="fas fa-check-circle"></i>
+                    <span><strong>Applied!</strong> ${detectedCourseCodes.length} courses (${totalCredits} credits) added to your profile. Switch to Setup tab to continue.</span>
+                </div>`;
+
+            document.getElementById('ocrActions').style.display = 'none';
+        });
+    </script>
 </body>
 
 </html>

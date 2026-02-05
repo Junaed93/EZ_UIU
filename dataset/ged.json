@@ -1,0 +1,48 @@
+{
+  "program": "BSCSE",
+  "category": "ELECTIVE_GED",
+  "open_credit": true,
+  "rule": "Elective GED courses are open credit, can be taken in any trimester, and count toward GED requirements.",
+  "courses": [
+    {
+      "course_code": "ECO 4101",
+      "course_name": "Economics",
+      "credit": 3,
+      "prerequisites": [],
+      "difficulty": "Easy",
+      "type": "GED_ELECTIVE",
+      "exam_day": "Day 6",
+      "exam_slot": "T1"
+    },
+    {
+      "course_code": "ACT 2111",
+      "course_name": "Financial and Managerial Accounting",
+      "credit": 3,
+      "prerequisites": [],
+      "difficulty": "Medium",
+      "type": "GED_ELECTIVE",
+      "exam_day": "Day 2",
+      "exam_slot": "T3"
+    },
+    {
+      "course_code": "IPE 3401",
+      "course_name": "Industrial and Operational Management",
+      "credit": 3,
+      "prerequisites": [],
+      "difficulty": "Easy",
+      "type": "GED_ELECTIVE",
+      "exam_day": "Day 1",
+      "exam_slot": "T1"
+    },
+    {
+      "course_code": "TEC 2499",
+      "course_name": "Technology Entrepreneurship",
+      "credit": 3,
+      "prerequisites": [],
+      "difficulty": "Easy",
+      "type": "GED_ELECTIVE",
+      "exam_day": "Day 3",
+      "exam_slot": "T2"
+    }
+  ]
+}
